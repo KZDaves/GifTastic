@@ -9,6 +9,19 @@ function createButtons(){
 	}
 }
 
+function createImages(api){
+	for(var i=0; i<api.data.length; i++){
+			var gif = $("<div>"); 
+			gif.attr("class", "gif")
+			gif.append(`<img src="${api.data[i].images.fixed_width_still.url}" 
+				data-still="${api.data[i].images.fixed_width_still.url}"
+				data-active="${api.data[i].images.fixed_width.url}"
+				data-status="still">`); 
+			gif.append(`Rating: ${api.data[i].rating}`)
+			$("#images").append(gif); 
+	}
+}
+
 createButtons();
 
 $("form button").on('click', function(){
@@ -22,19 +35,25 @@ $("form button").on('click', function(){
 	createButtons(); 
 })
 
-$(".buttons button").on('click', function(){
+$(document).on('click', ".buttons button", function(){
+	$("#images").empty(); 
 	var currentTopic = $(this).text(); 
 	var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=LgFh8pOyjoAjBE9wnt0ImoP4m377kzdF&q=%22"+ currentTopic +"%22&limit=10"; 
 	$.ajax({
 		url: queryURL,
 		method: "GET"
 	}).then(function(response){
-		for(var i=0; i<response.data.length; i++){
-			var img = $("<img>"); 
-			img.attr("src", response.data[i].images.fixed_width_still.url); 
-			$(".images").append(img); 
-		}
-		
+		createImages(response);  
 	})
+})
+
+$(document).on("click", ".gif img",function(){
+	if($(this).attr('data-status')=="still"){
+		$(this).attr('src', $(this).attr('data-active')); 
+		$(this).attr('data-status', "active"); 
+	}else{
+		$(this).attr('src', $(this).attr('data-still')); 
+		$(this).attr('data-status', "still"); 
+	}
 })
 

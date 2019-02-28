@@ -1,7 +1,25 @@
+h1{
+	text-align:center;
+}
+
 button{
 	background-color: lightblue;
 	color: white;
 	margin: 5px;
 	border-radius: 15px; 
 	height: 20px;
+}
+
+#images{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+	grid-column-gap: 2px;
+	grid-row-gap: 30px;
+}
+
+.gif{
+	display: grid;
+	grid-template-columns: 1fr;
+	height: 200px
+	width: 200px;
 }
